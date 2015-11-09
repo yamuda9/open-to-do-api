@@ -4,6 +4,8 @@ ruby                        '2.2.3'
 
 gem 'rails',                '4.2.4'
 
+gem 'active_model_serializers'
+
 gem 'bcrypt',               '~> 3.1.9'
 
 gem 'bootstrap-sass'
@@ -34,7 +36,7 @@ end
 
 group :development, :test do
   gem 'rspec-rails',        '~> 3.0'
-  gem 'shoulda-matchers',   require: false
+  gem 'shoulda-matchers'
   gem 'factory_girl_rails', '~> 4.0'
 end
 
