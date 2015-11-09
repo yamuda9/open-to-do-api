@@ -4,6 +4,8 @@ ruby                        '2.2.3'
 
 gem 'rails',                '4.2.4'
 
+gem 'active_model_serializers'
+
 gem 'bcrypt',               '~> 3.1.9'
 
 gem 'bootstrap-sass'
