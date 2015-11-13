@@ -26,4 +26,11 @@ RSpec.describe User, type: :model do
       expect(user_with_invalid_name).to_not be_valid
     end
   end
+
+  describe "#generate_auth_token" do
+    it "creates a token" do
+      user = User.create!(username: "Joe", password: "password")
+      expect(user.auth_token).to_not be_nil
+    end
+  end
 end
