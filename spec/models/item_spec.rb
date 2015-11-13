@@ -9,9 +9,7 @@ RSpec.describe Item, type: :model do
 
   describe "attributes" do
     it "should respond to name" do
-      user = User.create!(username: "Joe", password: "password")
-      list = user.lists.create!(name: "List")
-      item = Item.create!(name: "Item", list: list)
+      item = Item.create!(name: "Item")
 
       expect(item).to respond_to(:name)
     end

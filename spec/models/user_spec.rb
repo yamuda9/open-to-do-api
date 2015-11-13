@@ -18,6 +18,11 @@ RSpec.describe User, type: :model do
       user = User.create!(username: "Joe", password: "password")
       expect(user).to respond_to(:username)
     end
+
+    it "should respond to password" do
+      user = User.create!(username: "Joe", password: "password")
+      expect(user).to respond_to(:password)
+    end
   end
 
   describe "invalid user" do
