@@ -1,19 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe Api::UsersController, type: :controller do
+  before do
+    User.destroy_all
+  end
 
   context "unauthenticated users" do
     it "GET index returns http unauthenticated" do
       get :index
-      expect(response).to have_http_status(401)
+      expect(response.status).to eq(401)
     end
   end
 
   context "authenticated users" do
-    my_user = User.create!(username: "Joe", password: "password")
-
     before do
-      controller.request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials("Joe","password")
+      # controller.request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials("username", "password")
+      allow(controller).to receive(:authenticated?).and_return(true)
     end
 
     describe "GET index" do
@@ -27,9 +29,10 @@ RSpec.describe Api::UsersController, type: :controller do
         expect(response.content_type).to eq 'application/json'
       end
 
-      it "returns my_post serialized" do
+      it "returns my_user serialized" do
+        my_user = User.create!(username: "Joe", password: "password")
         get :index
-        expect([my_user].to_json).to eq response.body
+        expect(UserSerializer.new(User.first).username).to eq(my_user.username)
       end
     end
   end
