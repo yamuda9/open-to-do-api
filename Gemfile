@@ -17,7 +17,7 @@ gem 'figaro',               '~> 1.0'
 gem 'jquery-rails'
 gem 'jbuilder',             '~> 2.0'
 
-gem 'nokogiri',             '~> 1.6.7.rc3'
+gem 'nokogiri',             '1.6.7.rc3'
 
 gem 'pg',                   '~> 0.18.4'
 
@@ -35,11 +35,14 @@ end
 
 group :development, :test do
   gem 'rspec-rails',        '~> 3.0'
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers',   '~> 3.0.1'
   gem 'factory_girl_rails', '~> 4.0'
+end
+
+group :development do
   gem 'web-console',        '~> 2.0'
-  gem 'sqlite3'
-  gem 'pry-rails'
+  gem 'sqlite3',            '~> 1.3.11'
+  gem 'pry-rails',          '~> 0.3.4'
 end
 
 group :production do
