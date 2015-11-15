@@ -5,13 +5,6 @@ RSpec.describe API::UsersController, type: :controller do
     User.destroy_all
   end
 
-  context "unauthenticated users" do
-    xit "GET index returns http unauthenticated" do
-      get :index
-      expect(response.status).to eq(200)
-    end
-  end
-
   context "authenticated users" do
     before do
       @user = create(:user)
@@ -21,9 +14,6 @@ RSpec.describe API::UsersController, type: :controller do
       basic = ActionController::HttpAuthentication::Basic
       @credentials = basic.encode_credentials( @username, @password )
       request.env['HTTP_AUTHORIZATION'] = @credentials
-      
-      @accept_json_header = { 'Accept': Mime::JSON, 'Content-Type': Mime::JSON.to_s }
-      @auth_header = { 'Authorization' => @credentials }
     end
 
     describe "GET /api/users" do
@@ -55,17 +45,6 @@ RSpec.describe API::UsersController, type: :controller do
         users_hash.each do | user_hash |
           expect( usernames ).to include( user_hash[:username] )
         end
-      end
-
-      xit "returns json content type" do
-        get :index
-        expect(response.content_type).to eq 'application/json'
-      end
-
-      xit "returns my_user serialized" do
-        my_user = User.create!(username: "Joe", password: "password")
-        get :index
-        expect(UserSerializer.new(User.first).username).to eq(my_user.username)
       end
     end
   end
