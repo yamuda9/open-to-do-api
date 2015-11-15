@@ -8,6 +8,7 @@ gem 'active_model_serializers', '~> 0.9.3'
 
 gem 'bcrypt',               '~> 3.1.9'
 gem 'bootstrap-sass',       '~> 3.3.5.1'
+gem 'bundler'
 
 gem 'coffee-rails',         '~> 4.1.0'
 gem 'coffee-script-source', '~> 1.8.0'
