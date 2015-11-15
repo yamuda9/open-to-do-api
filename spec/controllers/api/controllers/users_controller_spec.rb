@@ -32,7 +32,7 @@ RSpec.describe API::UsersController, type: :controller do
         end
         
         # retrieve the list of users
-        get :index, {}, @accept_json_header
+        get :index
 
         expect( response.status ).to eq( 200 )
         expect( response.content_type ).to eq( Mime::JSON )
