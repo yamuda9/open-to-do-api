@@ -17,8 +17,11 @@ RSpec.describe API::UsersController, type: :controller do
       @user = create(:user)
       @username = @user.username
       @password = @user.password
+      
       basic = ActionController::HttpAuthentication::Basic
       @credentials = basic.encode_credentials( @username, @password )
+      request.env['HTTP_AUTHORIZATION'] = @credentials
+      
       @accept_json_header = { 'Accept': Mime::JSON, 'Content-Type': Mime::JSON.to_s }
       @auth_header = { 'Authorization' => @credentials }
     end
@@ -27,22 +30,31 @@ RSpec.describe API::UsersController, type: :controller do
       it "returns http success" do
         # create some users
       
-        credentials = [ { username: 'user1@example.com', password: 'password' }, { username: 'user2@example.com', password: 'password' } ]
+        credentials = 
+          [ 
+            { username: 'user1@example.com',   password: 'password' }, 
+            { username: 'user2@example.com',   password: 'password' },
+            { username: 'someone@example.com', password: 'password' } 
+          ]
 
         credentials.each do | credential |  
           User.create( credential )
         end
         
         # retrieve the list of users
-        get :index, {}, @accept_json_header.merge( @auth_header )
+        get :index, {}, @accept_json_header
 
         expect( response.status ).to eq( 200 )
         expect( response.content_type ).to eq( Mime::JSON )
       
         # verify that all users that were created are returned
         usernames = credentials.map { | credential| credential[:username] }
-
-        expect( assigns(:users).map(&:username) ).to include( usernames )
+        
+        users_hash = json( response.body )[:users]
+                  
+        users_hash.each do | user_hash |
+          expect( usernames ).to include( user_hash[:username] )
+        end
       end
 
       xit "returns json content type" do
@@ -56,5 +68,9 @@ RSpec.describe API::UsersController, type: :controller do
         expect(UserSerializer.new(User.first).username).to eq(my_user.username)
       end
     end
+  end
+  
+  def json( body )
+    JSON.parse( response.body, symbolize_names: true )
   end
 end
