@@ -1,4 +1,4 @@
-class Api::UsersController < ApiController
+class API::UsersController < ApiController
 
   before_action :authenticated?
 
