@@ -27,10 +27,10 @@ RSpec.describe API::ItemsController, type: :controller do
         expect(response.content_type).to eq 'application/json'
       end
 
-      xit "creates a topic with the correct attributes" do
+      it "creates item with the correct attributes" do
         post :create, {list_id: @list.id, name: @item.name}
         hashed_json = JSON.parse(response.body)
-        expect(@list.items.last.name).to eq hashed_json["MyString"]
+        expect(@list.items.last.name).to eq hashed_json["name"]
       end
     end
   end

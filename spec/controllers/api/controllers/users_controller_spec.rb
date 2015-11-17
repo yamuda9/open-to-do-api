@@ -59,11 +59,11 @@ RSpec.describe API::UsersController, type: :controller do
         expect(response.content_type).to eq 'application/json'
       end
 
-      xit "creates a topic with the correct attributes" do
+      it "creates a user with the correct attributes" do
         post :create, {username: @user.username, password: @user.password}
         hashed_json = JSON.parse(response.body)
-        expect(@user.username).to eq hashed_json["someone@example.com"]
-        expect(@user.password).to eq hashed_json["password"]
+        expect(@user.username).to eq hashed_json["user"]["username"]
+        expect(@user.password).to eq hashed_json["user"]["password"]
       end
     end
   end
