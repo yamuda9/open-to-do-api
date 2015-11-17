@@ -10,7 +10,6 @@ RSpec.describe User, type: :model do
 
   # Shoulda tests for password
   it { should validate_presence_of(:password) }
-  it { should have_secure_password }
   it { should validate_length_of(:password).is_at_least(6) }
 
   describe "attributes" do
@@ -18,19 +17,17 @@ RSpec.describe User, type: :model do
       user = User.create!(username: "Joe", password: "password")
       expect(user).to respond_to(:username)
     end
+    
+    it "should respond to password" do
+      user = User.create!(username: "Joe", password: "password")
+      expect(user).to respond_to(:password)
+    end
   end
 
   describe "invalid user" do
     it "should be an invalid user due to blank name" do
       user_with_invalid_name = User.new(username: "", password: "password")
       expect(user_with_invalid_name).to_not be_valid
-    end
-  end
-
-  describe "#generate_auth_token" do
-    it "creates a token" do
-      user = User.create!(username: "Joe", password: "password")
-      expect(user.auth_token).to_not be_nil
     end
   end
 end
