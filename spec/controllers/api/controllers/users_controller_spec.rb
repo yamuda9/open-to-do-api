@@ -66,6 +66,22 @@ RSpec.describe API::UsersController, type: :controller do
         expect(@user.password).to eq hashed_json["user"]["password"]
       end
     end
+
+    describe "DELETE destroy" do
+      before { delete :destroy, id: @user.id }
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns json content type" do
+        expect(response.content_type).to eq 'application/json'
+      end
+
+      it "deletes user" do
+        expect{ User.find(@user.id) }.to raise_exception(ActiveRecord::RecordNotFound)
+      end
+    end
   end
 
   def json( body )

@@ -33,5 +33,21 @@ RSpec.describe API::ListsController, type: :controller do
         expect(@user.lists.first.name).to eq hashed_json["name"]
       end
     end
+
+    describe "DELETE destroy" do
+      before { delete :destroy, user_id: @user.id, id: @list.id }
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns json content type" do
+        expect(response.content_type).to eq 'application/json'
+      end
+
+      it "deletes list" do
+        expect{ List.find(@list.id) }.to raise_exception(ActiveRecord::RecordNotFound)
+      end
+    end
   end
 end
