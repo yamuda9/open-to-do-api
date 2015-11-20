@@ -49,5 +49,25 @@ RSpec.describe API::ListsController, type: :controller do
         expect{ List.find(@list.id) }.to raise_exception(ActiveRecord::RecordNotFound)
       end
     end
+
+    describe "PUT update" do
+      before do
+        @new_list = build(:list)
+        put :update, user_id: @user.id, id: @list.id, list: { name: @new_list.name }
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns json content type" do
+        expect(response.content_type).to eq 'application/json'
+      end
+
+      it "updates a list with the correct attributes" do
+        hashed_json = JSON.parse(response.body)
+        expect(@user.lists.first.name).to eq hashed_json["list"]["name"]
+      end
+    end
   end
 end
