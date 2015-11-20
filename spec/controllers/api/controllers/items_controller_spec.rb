@@ -33,5 +33,25 @@ RSpec.describe API::ItemsController, type: :controller do
         expect(@list.items.last.name).to eq hashed_json["name"]
       end
     end
+
+    describe "PUT update" do
+      before do
+        @new_item = build(:item)
+        put :update, list_id: @list.id, id: @item.id, item: { name: @new_item.name }
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns json content type" do
+        expect(response.content_type).to eq 'application/json'
+      end
+
+      it "updates a list with the correct attributes" do
+        hashed_json = JSON.parse(response.body)
+        expect(@list.items.first.name).to eq hashed_json["item"]["name"]
+      end
+    end
   end
 end
